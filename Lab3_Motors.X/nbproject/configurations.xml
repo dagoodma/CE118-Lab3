@@ -7,6 +7,8 @@
       <itemPath>include/AD.h</itemPath>
       <itemPath>include/LED.h</itemPath>
       <itemPath>include/PORTS.h</itemPath>
+      <itemPath>include/SES.H</itemPath>
+      <itemPath>include/Stepper.h</itemPath>
       <itemPath>include/bits.h</itemPath>
       <itemPath>include/pwm.h</itemPath>
       <itemPath>include/serial.h</itemPath>
@@ -32,6 +34,8 @@
       <itemPath>src/AD.c</itemPath>
       <itemPath>src/LED.c</itemPath>
       <itemPath>src/PORTS.c</itemPath>
+      <itemPath>src/SES.c</itemPath>
+      <itemPath>src/Stepper.c</itemPath>
       <itemPath>main.c</itemPath>
       <itemPath>src/pwm.c</itemPath>
       <itemPath>src/serial.c</itemPath>
