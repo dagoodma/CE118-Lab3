@@ -93,93 +93,93 @@ ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 ${OBJECTDIR}/src/AD.o: src/AD.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
 	@${RM} ${OBJECTDIR}/src/AD.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/src/AD.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/MPLABXProjects/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/AD.o.d" -o ${OBJECTDIR}/src/AD.o src/AD.c  
+	@${FIXDEPS} "${OBJECTDIR}/src/AD.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/AD.o.d" -o ${OBJECTDIR}/src/AD.o src/AD.c  
 	
 ${OBJECTDIR}/src/pwm.o: src/pwm.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
 	@${RM} ${OBJECTDIR}/src/pwm.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/src/pwm.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/MPLABXProjects/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/pwm.o.d" -o ${OBJECTDIR}/src/pwm.o src/pwm.c  
+	@${FIXDEPS} "${OBJECTDIR}/src/pwm.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/pwm.o.d" -o ${OBJECTDIR}/src/pwm.o src/pwm.c  
 	
 ${OBJECTDIR}/src/timers.o: src/timers.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
 	@${RM} ${OBJECTDIR}/src/timers.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/src/timers.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/MPLABXProjects/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/timers.o.d" -o ${OBJECTDIR}/src/timers.o src/timers.c  
+	@${FIXDEPS} "${OBJECTDIR}/src/timers.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/timers.o.d" -o ${OBJECTDIR}/src/timers.o src/timers.c  
 	
 ${OBJECTDIR}/src/SES.o: src/SES.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
 	@${RM} ${OBJECTDIR}/src/SES.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/src/SES.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/MPLABXProjects/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/SES.o.d" -o ${OBJECTDIR}/src/SES.o src/SES.c  
+	@${FIXDEPS} "${OBJECTDIR}/src/SES.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/SES.o.d" -o ${OBJECTDIR}/src/SES.o src/SES.c  
 	
 ${OBJECTDIR}/src/LED.o: src/LED.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
 	@${RM} ${OBJECTDIR}/src/LED.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/src/LED.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/MPLABXProjects/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/LED.o.d" -o ${OBJECTDIR}/src/LED.o src/LED.c  
+	@${FIXDEPS} "${OBJECTDIR}/src/LED.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/LED.o.d" -o ${OBJECTDIR}/src/LED.o src/LED.c  
 	
 ${OBJECTDIR}/src/serial.o: src/serial.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
 	@${RM} ${OBJECTDIR}/src/serial.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/src/serial.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/MPLABXProjects/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/serial.o.d" -o ${OBJECTDIR}/src/serial.o src/serial.c  
+	@${FIXDEPS} "${OBJECTDIR}/src/serial.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/serial.o.d" -o ${OBJECTDIR}/src/serial.o src/serial.c  
 	
 ${OBJECTDIR}/src/Stepper.o: src/Stepper.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
 	@${RM} ${OBJECTDIR}/src/Stepper.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/src/Stepper.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/MPLABXProjects/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/Stepper.o.d" -o ${OBJECTDIR}/src/Stepper.o src/Stepper.c  
+	@${FIXDEPS} "${OBJECTDIR}/src/Stepper.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/Stepper.o.d" -o ${OBJECTDIR}/src/Stepper.o src/Stepper.c  
 	
 ${OBJECTDIR}/src/PORTS.o: src/PORTS.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
 	@${RM} ${OBJECTDIR}/src/PORTS.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/src/PORTS.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/MPLABXProjects/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/PORTS.o.d" -o ${OBJECTDIR}/src/PORTS.o src/PORTS.c  
+	@${FIXDEPS} "${OBJECTDIR}/src/PORTS.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/PORTS.o.d" -o ${OBJECTDIR}/src/PORTS.o src/PORTS.c  
 	
 ${OBJECTDIR}/main.o: main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
 	@${RM} ${OBJECTDIR}/main.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/main.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/MPLABXProjects/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/main.o.d" -o ${OBJECTDIR}/main.o main.c  
+	@${FIXDEPS} "${OBJECTDIR}/main.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/main.o.d" -o ${OBJECTDIR}/main.o main.c  
 	
 else
 ${OBJECTDIR}/src/AD.o: src/AD.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
 	@${RM} ${OBJECTDIR}/src/AD.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/src/AD.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/MPLABXProjects/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/AD.o.d" -o ${OBJECTDIR}/src/AD.o src/AD.c  
+	@${FIXDEPS} "${OBJECTDIR}/src/AD.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/AD.o.d" -o ${OBJECTDIR}/src/AD.o src/AD.c  
 	
 ${OBJECTDIR}/src/pwm.o: src/pwm.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
 	@${RM} ${OBJECTDIR}/src/pwm.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/src/pwm.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/MPLABXProjects/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/pwm.o.d" -o ${OBJECTDIR}/src/pwm.o src/pwm.c  
+	@${FIXDEPS} "${OBJECTDIR}/src/pwm.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/pwm.o.d" -o ${OBJECTDIR}/src/pwm.o src/pwm.c  
 	
 ${OBJECTDIR}/src/timers.o: src/timers.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
 	@${RM} ${OBJECTDIR}/src/timers.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/src/timers.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/MPLABXProjects/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/timers.o.d" -o ${OBJECTDIR}/src/timers.o src/timers.c  
+	@${FIXDEPS} "${OBJECTDIR}/src/timers.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/timers.o.d" -o ${OBJECTDIR}/src/timers.o src/timers.c  
 	
 ${OBJECTDIR}/src/SES.o: src/SES.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
 	@${RM} ${OBJECTDIR}/src/SES.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/src/SES.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/MPLABXProjects/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/SES.o.d" -o ${OBJECTDIR}/src/SES.o src/SES.c  
+	@${FIXDEPS} "${OBJECTDIR}/src/SES.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/SES.o.d" -o ${OBJECTDIR}/src/SES.o src/SES.c  
 	
 ${OBJECTDIR}/src/LED.o: src/LED.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
 	@${RM} ${OBJECTDIR}/src/LED.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/src/LED.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/MPLABXProjects/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/LED.o.d" -o ${OBJECTDIR}/src/LED.o src/LED.c  
+	@${FIXDEPS} "${OBJECTDIR}/src/LED.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/LED.o.d" -o ${OBJECTDIR}/src/LED.o src/LED.c  
 	
 ${OBJECTDIR}/src/serial.o: src/serial.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
 	@${RM} ${OBJECTDIR}/src/serial.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/src/serial.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/MPLABXProjects/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/serial.o.d" -o ${OBJECTDIR}/src/serial.o src/serial.c  
+	@${FIXDEPS} "${OBJECTDIR}/src/serial.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/serial.o.d" -o ${OBJECTDIR}/src/serial.o src/serial.c  
 	
 ${OBJECTDIR}/src/Stepper.o: src/Stepper.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
 	@${RM} ${OBJECTDIR}/src/Stepper.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/src/Stepper.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/MPLABXProjects/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/Stepper.o.d" -o ${OBJECTDIR}/src/Stepper.o src/Stepper.c  
+	@${FIXDEPS} "${OBJECTDIR}/src/Stepper.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/Stepper.o.d" -o ${OBJECTDIR}/src/Stepper.o src/Stepper.c  
 	
 ${OBJECTDIR}/src/PORTS.o: src/PORTS.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
 	@${RM} ${OBJECTDIR}/src/PORTS.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/src/PORTS.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/MPLABXProjects/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/PORTS.o.d" -o ${OBJECTDIR}/src/PORTS.o src/PORTS.c  
+	@${FIXDEPS} "${OBJECTDIR}/src/PORTS.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/PORTS.o.d" -o ${OBJECTDIR}/src/PORTS.o src/PORTS.c  
 	
 ${OBJECTDIR}/main.o: main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
 	@${RM} ${OBJECTDIR}/main.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/main.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/MPLABXProjects/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/main.o.d" -o ${OBJECTDIR}/main.o main.c  
+	@${FIXDEPS} "${OBJECTDIR}/main.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/main.o.d" -o ${OBJECTDIR}/main.o main.c  
 	
 endif
 

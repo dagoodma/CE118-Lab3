@@ -1,7 +1,28 @@
-Finished part 1, can't get GetChar to detect key press.
-    Also: generates fffffff on first iteration, and then
-    goes to 0000000 afterwards.
+Finished part 1. Need to get checked off.
 
+
+Part 2:
+-------
+Ask about part 2.6-8
+
+
+Part 3:
+-------
+Full-step drive for part 3 broken.
+
+Experiment with full-step: range, ramping, load + revolution max
+
+Do DRV8811 questions...
+
+Rest:
+-----
+Do Part 4 and 5
+
+
+
+
+Report:
+-------
 Need schematic of part 1 wiring.
 
 Lastly, write explaination of ADC port protection (diodes, resistors).

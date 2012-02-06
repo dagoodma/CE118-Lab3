@@ -12,11 +12,12 @@
 #include <AD.h>
 #include <pwm.h>
 #include <SES.H>
+#include <Stepper.h>
 //#include <stdio.h>
 //include <LED.h>
 
 #define POT_INPUT AD_PORTV5
-#define A_PWM PWM_PORTZ06
+#define A_PWM    PWM_PORTZ06
 #define FREQ_PWM 25
 
 // Duty cycle bounds
@@ -33,6 +34,7 @@ uint ReadPotentiometer(void);
 uint min(uint a, uint b);
 uint max(uint a, uint b);
 
+/*
 int main(void) {
 
     // ----------------- Initialization --------------
@@ -90,7 +92,7 @@ int main(void) {
 
         }
 
-        */
+ 
         
         char keyPressed = GetChar();
         if (keyPressed != 0 && ! firstRun) {
@@ -107,6 +109,7 @@ int main(void) {
     AD_End();
     return 0;
 }
+*/
 
 /**
  * Function: min

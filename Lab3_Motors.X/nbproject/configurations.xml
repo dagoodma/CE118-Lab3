@@ -82,7 +82,7 @@
         <property key="preprocessor-macros" value=""/>
         <property key="additional-warnings" value="false"/>
         <property key="extra-include-directories"
-                  value="C:\Users\hahernan\MPLABXProjects\Lab3_Motors.X\include"/>
+                  value="C:\Users\hahernan\Documents\CE118\Lab3\CE118-Lab3\Lab3_Motors.X\include"/>
         <property key="post-instruction-scheduling" value="default"/>
         <property key="enable-app-io" value="false"/>
         <property key="enable-unroll-loops" value="false"/>
