@@ -16,100 +16,148 @@
 //#include <stdio.h>
 //include <LED.h>
 
-#define POT_INPUT AD_PORTV5
-#define A_PWM    PWM_PORTZ06
-#define FREQ_PWM 25
-
-// Duty cycle bounds
-#define DUTY_MAX MAX_PWM
-#define DUTY_MIN MIN_PWM
+#define STEP_TIMER 1
+#define STEP_TIMER_DELAY 10
+#define STEPHI_TIMER_DELAY 10
 
 #define uint unsigned int
 
-#define ADC_PAUSE
+#define STEP_TRIS       PORTZ03_TRIS
+#define DIRECTION_TRIS  PORTZ04_TRIS
+#define ENABLE_TRIS     PORTZ05_TRIS
+
+#define STEP            PORTZ03_LAT
+#define DIRECTION       PORTZ04_LAT
+#define ENABLE          PORTZ05_LAT
+
+#define FORWARD 0 // CW
+#define REVERSE 1 // CCW
+
+
+#define COIL_B_ENABLE PORTZ08_LAT
+
+//--
+static char enable = 0;
+static enum {idle, cw, ccw, step} state = idle;
+
+
 
 // ---------------- Prototypes ------------------
-uint ReadPotentiometer(void);
-
 uint min(uint a, uint b);
 uint max(uint a, uint b);
+void StartIdle();
+void StartStep();
+void StartCw();
+void StartCcw();
 
-/*
 int main(void) {
 
     // ----------------- Initialization --------------
     SERIAL_Init();
     TIMERS_Init();
-    //SES_Init(SES_ROUND_ROBIN | SES_PRIORITY);
-
-    // Initialize channel A to 200 Hz from PWM
-    PWM_Init(A_PWM, FREQ_PWM);
-
-    // Initialize AD pot input
-    AD_Init(POT_INPUT);
+    InitTimer(STEP_TIMER,1);
 
     // Initialize interrupts
     INTEnableSystemMultiVectoredInt();
 
-    // Set Ch A PWM duty cycle to 50%
-    SetDutyCycle(A_PWM, 500);
+    // Initialize hardware
+    STEP_TRIS = 0;
+    DIRECTION_TRIS = 0;
+    ENABLE_TRIS = 0;
 
-    char firstRun = 1;
+
+    StartIdle();
+
+ 
     printf("\nHello, I am working...");
 
     while (1) {
 
-        // Read and print potentiometer
-        uint potValue = ReadPotentiometer();
-        //printf("\nPot. reading: %x", potValue);
 
-        // Pause if desired
-        #ifdef ADC_PAUSE
-        uint wait = 0;
-        for (wait = 0; wait <= 100000; wait++)
-            asm("nop");
-        #endif
-        
-        // Set motor speed with PWM from pot reading
-        uint newSpeed = potValue;
-        // bound it
-        newSpeed = max(newSpeed,DUTY_MIN);
-        newSpeed = min(newSpeed,DUTY_MAX);
-        // effect the motor
-        if (SetDutyCycle(A_PWM, newSpeed) == SUCCESS) {
-            printf("\nSuccessfully set PWM to %x", newSpeed);
-        }
-        else {
-            printf("\nFailed to set PWM to %x", newSpeed);
-        }
-        /*
-        // Read char from stdin
-        //char keyPressed = GetChar();
-        //printf("\nTesting...");
-        if (IsTransmitEmpty()) {
-            printf("\nReceive buffer: %x",IsReceiveEmpty());
-            printf("\nChar: %x",GetChar());
-
+        switch (state) {
+            case idle:
+                // do nothing
+                break;
+            case cw:
+                if (IsTimerExpired(STEP_TIMER)) {
+                    StartStep();
+                }
+                break;
+            case ccw:
+                if (IsTimerExpired(STEP_TIMER)) {
+                    StartStep();
+                }
+                break;
+            case step:
+                if (IsTimerExpired(STEP_TIMER)) {
+                    STEP = 0;
+                    if (DIRECTION == FORWARD){
+                        StartCw();
+                        printf("forward");
+                    } else{
+                        StartCcw();
+                        printf("reverse");
+                    }
+                }
         }
 
- 
+   
         
         char keyPressed = GetChar();
-        if (keyPressed != 0 && ! firstRun) {
-            printf("\nGoodbye! %x",keyPressed);
-            SetDutyCycle(A_PWM, 0);
-            break;
+        if (keyPressed != 0) {
+            if (keyPressed == 'f') {
+                // forward
+                StartCw();
+            }
+            else if(keyPressed == 'r') {
+                 // reverse
+                StartCcw();
+            }
+            else if(keyPressed == 's') {
+                StartIdle();
+            }
         }
-        firstRun = 0;
+ 
         while (!IsTransmitEmpty()); // bad, this is blocking code
     }
 
-    //SES_Register(&ChangedPotentiometer())
-
-    AD_End();
     return 0;
 }
-*/
+
+void StartIdle() {
+     printf("\nIdling...");
+    state = idle;
+    ENABLE = 0;
+    STEP = 0;
+}
+
+void StartCw() {
+    printf("\nClockwising...");
+    ENABLE = 1;
+    STEP = 0;
+    DIRECTION = FORWARD;
+    state = cw;
+    InitTimer(STEP_TIMER,STEP_TIMER_DELAY);
+}
+
+void StartCcw() {
+    printf("\nCounter-Clockwising...");
+    ENABLE = 1;
+    STEP = 0;
+    DIRECTION = REVERSE;
+    state = ccw;
+    InitTimer(STEP_TIMER,STEP_TIMER_DELAY);
+}
+
+void StartStep() {
+    // Sent a logical high to the step input on the DRV8811
+    // and never transition states
+    //printf("\nStepping...");
+    STEP = 1;
+    state = step;
+    InitTimer(STEP_TIMER,STEPHI_TIMER_DELAY);
+}
+
 
 /**
  * Function: min
@@ -139,13 +187,3 @@ uint max(uint a, uint b) {
         return b;
 }
 
-
-/**
- * Function: ReadPotentiometer
- * @return Voltage at the wiper of the potentiometer
- * @remark Voltage is sampled from the ADC where 0V -> 0, and
- *         3.3V -> 1023
- */
-uint ReadPotentiometer(void) {
-    return ReadADPin(POT_INPUT);
-}

@@ -46,9 +46,23 @@
 #define LED_BANK1_1 LATDbits.LATD3
 #define LED_BANK1_0 LATDbits.LATD5
 
+#define LED_BANK2_3 LATFbits.LATF6
+#define LED_BANK2_2 LATGbits.LATG7
+#define LED_BANK2_1 LATDbits.LATD7
+#define LED_BANK2_0 LATGbits.LATG8
 
-#define ShutDownDrive() (COIL_A_ENABLE = 0, COIL_B_ENABLE = 0)
-#define TurnOnDrive() (COIL_A_ENABLE = 1, COIL_B_ENABLE = 1)
+
+#define ShutDownDrive() (COIL_A_ENABLE = 0, BDisable())
+#define TurnOnDrive() (COIL_A_ENABLE = 1, BEnable())
+
+#define AEnable() (COIL_A_ENABLE = 1, LED_BANK2_0 = 1)
+#define ADisable() (COIL_A_ENABLE = 0, LED_BANK2_0 = 0)
+#define ADirectionOn() (COIL_A_DIRECTION = 1, LED_BANK2_1 = 1)
+#define ADirectionOff() (COIL_A_DIRECTION = 0, LED_BANK2_1 = 0)
+#define BEnable() (COIL_B_ENABLE = 1, LED_BANK2_2 = 1)
+#define BDisable() (COIL_B_ENABLE = 0, LED_BANK2_2 = 0)
+#define BDirectionOn() (COIL_B_DIRECTION = 1, LED_BANK2_3 = 1)
+#define BDirectionOff() (COIL_B_DIRECTION = 0, LED_BANK2_3 = 0)
 
 /*******************************************************************************
  * PRIVATE STRUCTS and TYPEDEFS                                                *
@@ -61,17 +75,12 @@
 static int stepCount = 0;
 static unsigned short int overflowReps = 0;
 static unsigned char stepDir = FORWARD;
-static enum {off,inited,full,wave,half,halted,waiting} stepperState = off;
+static enum {off,inited,stepping,halted,waiting} stepperState = off;
 static enum {step_one,step_two,step_three,step_four,step_five,
              step_six, step_seven, step_eight} coilState = step_one;
 
-#define STEPPER_MODE wave
-#define STEPPER_SPEED 250
-//#define STEPPER_RAMPS
-
-
-
-static unsigned short int stepSpeed = STEPPER_SPEED;
+static enum {full,wave,half} stepperMode;
+static unsigned short int stepperSpeed;
 
 /*******************************************************************************
  * PRIVATE FUNCTIONS PROTOTYPES                                                *
@@ -104,6 +113,8 @@ char Stepper_Init(unsigned short int rate)
     if (rate > TWENTY_KILOHERTZ) return ERROR;
     dbprintf("\nInitializing Stepper Module");
     stepCount = 0;
+    stepperMode = full;
+    stepperSpeed = rate;
     overflowReps = 0;
     // Initialize hardware (no current flow)
     COIL_A_DIRECTION = 1;
@@ -132,12 +143,23 @@ char Stepper_ChangeStepRate(unsigned short int rate)
     unsigned short int overflowPeriod;
     if ((rate > TWENTY_KILOHERTZ)||(stepperState == off)) return ERROR;
     dbprintf("\nChanging step rate");
-    T5CONbits.ON = 0; // halt timer5
+    //T5CONbits.ON = 0; // halt timer5
+    //overflowPeriod = CalculateOverflowPeriod(rate);
+    //WritePeriod5(overflowPeriod);
+    //if (stepperState != halted) {
+    //    T3CONbits.ON = 1; // restart timer3
+    //}
+    // Calculate overflow time and prescalar
     overflowPeriod = CalculateOverflowPeriod(rate);
-    WritePeriod5(overflowPeriod);
-    if (stepperState != halted) {
-        T3CONbits.ON = 1; // restart timer3
-    }
+    dbprintf("\nOverflow Period: %u",overflowPeriod);
+    dbprintf("\nNumber of Reps: %u",overflowReps);
+    // Setup timer and interrupt
+    OpenTimer3(T3_ON | T3_SOURCE_INT | T3_PS_1_8, overflowPeriod);
+//    OpenTimer5(T5_ON | T5_IDLE_STOP | T5_GATE_OFF | T5_PS_1_8 | T5_SOURCE_INT,overflowPeriod);
+//    OpenTimer5(T5_ON | T5_PS_1_8 | T5_SOURCE_INT, overflowPeriod);
+    ConfigIntTimer3(T3_INT_ON | T3_INT_PRIOR_3 );
+    mT3IntEnable(1);
+    stepperSpeed = rate;
     return SUCCESS;
 }
 
@@ -150,7 +172,7 @@ char Stepper_SetSteps(char direction, unsigned int steps)
         switch(stepperState) {
             case waiting:
             case inited:
-                stepperState = STEPPER_MODE;
+                stepperState = stepping;
                 break;
             default:
                 break;
@@ -191,7 +213,7 @@ char Stepper_IncrementSteps(char direction, unsigned int steps)
         }
     }
     if (stepperState != halted) {
-        if (stepCount > 0) stepperState = STEPPER_MODE;
+        if (stepCount > 0) stepperState = stepperMode;
         else {
             stepperState = waiting;
             ShutDownDrive();
@@ -224,7 +246,7 @@ char Stepper_Resume(void)
     if (stepperState != halted) return ERROR;
     dbprintf("\nResuming Stepper drive");
     if (stepCount > 0) {
-        stepperState = STEPPER_MODE;
+        stepperState = stepperMode;
     } else {
         stepperState = waiting;
     }
@@ -317,201 +339,230 @@ void __ISR(_TIMER_3_VECTOR, ipl4) Timer3IntHandler(void)
                 LED_BANK1_2 ^= 1;
                 break;
             //------------------- Full-Step --------------------------
-            case full:
-                if (--stepCount <= 0) stepperState = waiting;
-                LED_BANK1_3 ^= 1;
-                TurnOnDrive(); // enable both coils
-                switch(coilState) {
-                    case step_one:
-                        // coil drive both forward
-                        COIL_A_DIRECTION = 1;
-                        COIL_B_DIRECTION = 1;
-                        if (stepDir == FORWARD) coilState = step_two;
-                        else coilState = step_four;
-                        break;
+            case stepping:
+                switch(stepperMode) {
+                case full:
+                    if (--stepCount <= 0) stepperState = waiting;
+                    LED_BANK1_3 ^= 1;
+                    TurnOnDrive(); // enable both coils
+                    switch(coilState) {
+                        case step_one:
+                            // coil drive both forward
+                            ADirectionOn();
+                            BDirectionOn();
+                            if (stepDir == FORWARD) coilState = step_two;
+                            else coilState = step_four;
+                            break;
 
-                    case step_two:
-                        // coil drive A forward, B reverse
-                        COIL_A_DIRECTION = 1;
-                        COIL_B_DIRECTION = 0;
-                        if (stepDir == FORWARD) coilState = step_three;
-                        else coilState = step_one;
-                        break;
+                        case step_two:
+                            // coil drive A forward, B reverse
+                            ADirectionOn();
+                            BDirectionOff();
+                            if (stepDir == FORWARD) coilState = step_three;
+                            else coilState = step_one;
+                            break;
 
-                    case step_three:
-                        // coil drive both reverse
-                        COIL_A_DIRECTION = 0;
-                        COIL_B_DIRECTION = 0;
-                        if (stepDir == FORWARD) coilState = step_four;
-                        else coilState = step_two;
-                        break;
+                        case step_three:
+                            // coil drive both reverse
+                            ADirectionOff();
+                            BDirectionOff();
+                            if (stepDir == FORWARD) coilState = step_four;
+                            else coilState = step_two;
+                            break;
 
-                    case step_four:
-                        // coild drive A reverse, B forward
-                        COIL_A_DIRECTION = 0;
-                        COIL_B_DIRECTION = 1;
-                        if (stepDir == FORWARD) coilState = step_one;
-                        else coilState = step_three;
-                        break;
+                        case step_four:
+                            // coild drive A reverse, B forward
+                            ADirectionOff();
+                            BDirectionOn();
+                            if (stepDir == FORWARD) coilState = step_one;
+                            else coilState = step_three;
+                            break;
 
-                } // end of full-step drive
-                break;
-            //------------------- Wave Drive ------------------------
-            case wave:
-                if (--stepCount <= 0) stepperState = waiting;
-                LED_BANK1_3 ^= 1;
-                switch(coilState) {
-                    case step_one:
-                        // coil drive both forward
-                        COIL_A_ENABLE = 1;
-                        COIL_B_ENABLE = 0;
-                        COIL_A_DIRECTION = 1;
-                        if (stepDir == FORWARD) coilState = step_two;
-                        else coilState = step_four;
-                        break;
+                    } // end of full-step drive
+                    break;
+                //------------------- Wave Drive ------------------------
+                case wave:
+                    if (--stepCount <= 0) stepperState = waiting;
+                    LED_BANK1_3 ^= 1;
+                    switch(coilState) {
+                        case step_one:
+                            // coil drive both forward
+                            AEnable();
+                            BDisable();
+                            ADirectionOn();
+                            if (stepDir == FORWARD) coilState = step_two;
+                            else coilState = step_four;
+                            printf("\nStep one, wave");
+                            break;
 
-                    case step_two:
-                        // coil drive A forward, B reverse
-                        COIL_A_ENABLE = 0;
-                        COIL_B_ENABLE = 1;
-                        COIL_B_DIRECTION = 0;
-                        if (stepDir == FORWARD) coilState = step_three;
-                        else coilState = step_one;
-                        break;
+                        case step_two:
+                            // coil drive A forward, B reverse
+                            ADisable();
+                            BEnable();
+                            BDirectionOff();
+                            if (stepDir == FORWARD) coilState = step_three;
+                            else coilState = step_one;
+                            printf("\nStep two, wave");
+                            break;
 
-                    case step_three:
-                        // coil drive both reverse
-                        COIL_A_ENABLE = 1;
-                        COIL_B_ENABLE = 0;
-                        COIL_A_DIRECTION = 0;
-                        if (stepDir == FORWARD) coilState = step_four;
-                        else coilState = step_two;
-                        break;
+                        case step_three:
+                            // coil drive both reverse
+                            AEnable();
+                            BDisable();
+                            ADirectionOff();
+                            if (stepDir == FORWARD) coilState = step_four;
+                            else coilState = step_two;
+                            printf("\nStep three, wave");
+                            break;
 
-                    case step_four:
-                        // coild drive A reverse, B forward
-                        COIL_A_ENABLE = 0;
-                        COIL_B_ENABLE = 1;
-                        COIL_B_DIRECTION = 1;
-                        if (stepDir == FORWARD) coilState = step_one;
-                        else coilState = step_three;
-                        break;
+                        case step_four:
+                            // coild drive A reverse, B forward
+                            ADisable();
+                            BEnable();
+                            BDirectionOn();
+                            if (stepDir == FORWARD) coilState = step_one;
+                            else coilState = step_three;
+                            printf("\nStep four, wave");
+                            break;
 
-                } // end of wave drive
-                break;
-            //------------------- Half Step --------------------------    
-            case half:
-                if (--stepCount <= 0) stepperState = waiting;
-                LED_BANK1_3 ^= 1;
-                switch(coilState) {
-                    case step_one:
-                        // coil drive both forward
-                        COIL_A_ENABLE = 1;
-                        COIL_B_ENABLE = 1;
-                        COIL_A_DIRECTION = 1;
-                        COIL_B_DIRECTION = 1;
-                        if (stepDir == FORWARD) coilState = step_two;
-                        else coilState = step_eight;
-                        break;
+                    } // end of wave drive
+                    break;
+                //------------------- Half Step --------------------------
+                case half:
+                    if (--stepCount <= 0) stepperState = waiting;
+                    LED_BANK1_3 ^= 1;
+                    switch(coilState) {
+                        case step_one:
+                            // coil drive both forward
+                            AEnable();
+                            BEnable();
+                            ADirectionOn();
+                            BDirectionOn();
+                            if (stepDir == FORWARD) coilState = step_two;
+                            else coilState = step_eight;
+                            break;
 
-                    case step_two:
-                        // coil drive A forward, B reverse
-                        COIL_A_ENABLE = 1;
-                        COIL_B_ENABLE = 0;
-                        COIL_A_DIRECTION = 1;
-                        COIL_B_DIRECTION = 0;
-                        if (stepDir == FORWARD) coilState = step_three;
-                        else coilState = step_one;
-                        break;
+                        case step_two:
+                            // coil drive A forward, B reverse
+                            AEnable();
+                            BDisable();
+                            ADirectionOn();
+                            BDirectionOff();
+                            if (stepDir == FORWARD) coilState = step_three;
+                            else coilState = step_one;
+                            break;
 
-                    case step_three:
-                        // coil drive both reverse
-                        COIL_A_ENABLE = 1;
-                        COIL_B_ENABLE = 1;
-                        COIL_A_DIRECTION = 1;
-                        if (stepDir == FORWARD) coilState = step_four;
-                        else coilState = step_two;
-                        break;
+                        case step_three:
+                            // coil drive both reverse
+                            AEnable();
+                            BEnable();
+                            ADirectionOn();
+                            if (stepDir == FORWARD) coilState = step_four;
+                            else coilState = step_two;
+                            break;
 
-                    case step_four:
-                        // coild drive A reverse, B forward
-                        COIL_A_ENABLE = 0;
-                        COIL_B_ENABLE = 1;
-                        COIL_B_DIRECTION = 0;
-                        if (stepDir == FORWARD) coilState = step_five;
-                        else coilState = step_three;
-                        break;
-                    case step_five:
-                        // coil drive both forward
-                        COIL_A_ENABLE = 1;
-                        COIL_B_ENABLE = 1;
-                        COIL_A_DIRECTION = 0;  // ?
-                        COIL_B_DIRECTION = 0;
-                        if (stepDir == FORWARD) coilState = step_six;
-                        else coilState = step_four;
-                        break;
+                        case step_four:
+                            // coild drive A reverse, B forward
+                            ADisable();
+                            BEnable();
+                            BDirectionOff();
+                            if (stepDir == FORWARD) coilState = step_five;
+                            else coilState = step_three;
+                            break;
+                        case step_five:
+                            // coil drive both forward
+                            AEnable();
+                            BEnable();
+                            ADirectionOff();  // ?
+                            BDirectionOff();
+                            if (stepDir == FORWARD) coilState = step_six;
+                            else coilState = step_four;
+                            break;
 
-                    case step_six:
-                        // coil drive A forward, B reverse
-                        COIL_A_ENABLE = 1;
-                        COIL_B_ENABLE = 0;
-                        COIL_A_DIRECTION = 0;
-                        if (stepDir == FORWARD) coilState = step_seven;
-                        else coilState = step_five;
-                        break;
+                        case step_six:
+                            // coil drive A forward, B reverse
+                            AEnable();
+                            BDisable();
+                            ADirectionOff();
+                            if (stepDir == FORWARD) coilState = step_seven;
+                            else coilState = step_five;
+                            break;
 
-                    case step_seven:
-                        // coil drive both reverse
-                        COIL_A_ENABLE = 1;
-                        COIL_B_ENABLE = 1;
-                        COIL_A_DIRECTION = 0;
-                        COIL_B_DIRECTION = 1;
-                        if (stepDir == FORWARD) coilState = step_eight;
-                        else coilState = step_six;
-                        break;
+                        case step_seven:
+                            // coil drive both reverse
+                            AEnable();
+                            BEnable();
+                            ADirectionOff();
+                            BDirectionOn();
+                            if (stepDir == FORWARD) coilState = step_eight;
+                            else coilState = step_six;
+                            break;
 
-                    case step_eight:
-                        // coild drive A reverse, B forward
-                        COIL_A_ENABLE = 0;
-                        COIL_B_ENABLE = 1;
-                        COIL_B_DIRECTION = 1;
-                        if (stepDir == FORWARD) coilState = step_one;
-                        else coilState = step_seven;
-                        break;
+                        case step_eight:
+                            // coild drive A reverse, B forward
+                            ADisable();
+                            BEnable();
+                            BDirectionOn();
+                            if (stepDir == FORWARD) coilState = step_one;
+                            else coilState = step_seven;
+                            break;
 
-                } // end of half-step drive
-                break;
-
-
-
-        }
+                    } // end of half-step drive
+                    break;
+                } // end of switch(stepperMode)
+        } // end of switch(stepperState)
     }
     mT3ClearIntFlag();
 }
 
+char Stepper_SetMode(unsigned short int mode) {
+    if (mode >= 0 && mode <= 2)
+        stepperMode = mode;
+}
 
-char Stepper_SetSpeed(unsigned short int rate)
-{
-    unsigned short int overflowPeriod;
-    if (rate > TWENTY_KILOHERTZ) return ERROR;
-    overflowReps = 0;
-    // Calculate overflow time and prescalar
-    overflowPeriod = CalculateOverflowPeriod(rate);
-    dbprintf("\nOverflow Period: %u",overflowPeriod);
-    dbprintf("\nNumber of Reps: %u",overflowReps);
-    // Setup timer and interrupt
-    OpenTimer3(T3_ON | T3_SOURCE_INT | T3_PS_1_8, overflowPeriod);
-    ConfigIntTimer3(T3_INT_ON | T3_INT_PRIOR_3 );
-    mT3IntEnable(1);
+unsigned short int Stepper_GetSpeed() {
+    return stepperSpeed;
+}
 
-    stepSpeed = rate;
-    return SUCCESS;
+unsigned short int Stepper_GetMode() {
+    return stepperMode;
 }
 
 
 /*******************************************************************************
  * TEST HARNESS                                                                *
  ******************************************************************************/
+/*
+int main(void) {
+    int i;
+    unsigned short pattern;
+    char j,k;
+
+    SERIAL_Init();
+    AD1PCFG = 0xFF;
+    INTEnableSystemMultiVectoredInt();
+    //enable LED bank 1
+    TRISDbits.TRISD6 = 0;
+    TRISDbits.TRISD11 = 0;
+    TRISDbits.TRISD3 = 0;
+    TRISDbits.TRISD5 = 0;
+    //enable LED bank 2
+    TRISFbits.TRISF6 = 0;
+    TRISGbits.TRISG7 = 0;
+    TRISDbits.TRISD7 = 0;
+    TRISGbits.TRISG8 = 0;
+
+    
+    printf("\nHello World!");
+    Stepper_Init(stepSpeed);
+
+    AEnable();
+    BEnable();
+    while(1) {
+        asm("nop");
+    }
+}
+ */
 
 #ifdef STEPPER_TEST
 
@@ -531,11 +582,16 @@ int main(void) {
     TRISDbits.TRISD11 = 0;
     TRISDbits.TRISD3 = 0;
     TRISDbits.TRISD5 = 0;
+    //enable LED bank 2
+    TRISFbits.TRISF6 = 0;
+    TRISGbits.TRISG7 = 0;
+    TRISDbits.TRISD7 = 0;
+    TRISGbits.TRISG8 = 0;
 
     printf("\nHello World!");
     Stepper_Init(stepSpeed);
     printf("\nStepping forward 420 steps");
-    Stepper_SetSteps(FORWARD,400);
+    Stepper_SetSteps(FORWARD,420);
     while(Stepper_GetRemainingCount() > 1) {
         printf("\t%u,%u",Stepper_GetRemainingCount(),stepSpeed);
         DELAY();
@@ -547,8 +603,9 @@ int main(void) {
     }
     printf("\nForward steps done");
 
-    //Stepper_SetSteps(REVERSE,220);
-    Stepper_SetSteps(REVERSE,400);
+    DELAY();
+
+    Stepper_SetSteps(REVERSE,220);
     while (Stepper_GetRemainingCount() > 1) {
         printf("\t%u",Stepper_GetRemainingCount());
         DELAY();
@@ -561,10 +618,10 @@ int main(void) {
     TRIS_COIL_B_ENABLE = 0;
 
     ShutDownDrive();
-    COIL_A_ENABLE = 0;
-    COIL_A_DIRECTION = 0;
-    COIL_B_ENABLE = 0;
-    COIL_B_DIRECTION = 0;
+    ADisable();
+    ADirectionOff();
+    BDisable();
+    BDirectionOff();
     printf("\n Turning on COIL_B_DIRECTION (PortZ-07");
     for (j=0;j<10;j++) {
         printf("o");
