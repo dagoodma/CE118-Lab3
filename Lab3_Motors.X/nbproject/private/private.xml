@@ -1,14 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
-        <file>file:/C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/main.c</file>
-        <file>file:/C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/src/timers.c</file>
-        <file>file:/C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include/timers.h</file>
-        <file>file:/C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include/pwm.h</file>
-        <file>file:/C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/src/serial.c</file>
-        <file>file:/C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include/serial.h</file>
-        <file>file:/C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include/Stepper.h</file>
-        <file>file:/C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/src/pwm.c</file>
-    </open-files>
 </project-private>

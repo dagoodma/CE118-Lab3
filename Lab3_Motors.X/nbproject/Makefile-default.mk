@@ -36,10 +36,10 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/src/AD.o ${OBJECTDIR}/src/LED.o ${OBJECTDIR}/src/PORTS.o ${OBJECTDIR}/src/SES.o ${OBJECTDIR}/src/Stepper.o ${OBJECTDIR}/src/pwm.o ${OBJECTDIR}/src/serial.o ${OBJECTDIR}/src/timers.o
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/src/AD.o ${OBJECTDIR}/src/LED.o ${OBJECTDIR}/src/PORTS.o ${OBJECTDIR}/src/RCServo.o ${OBJECTDIR}/src/SES.o ${OBJECTDIR}/src/Stepper.o ${OBJECTDIR}/src/pwm.o ${OBJECTDIR}/src/serial.o ${OBJECTDIR}/src/timers.o
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/src/AD.o ${OBJECTDIR}/src/LED.o ${OBJECTDIR}/src/PORTS.o ${OBJECTDIR}/src/SES.o ${OBJECTDIR}/src/Stepper.o ${OBJECTDIR}/src/pwm.o ${OBJECTDIR}/src/serial.o ${OBJECTDIR}/src/timers.o
+OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/src/AD.o ${OBJECTDIR}/src/LED.o ${OBJECTDIR}/src/PORTS.o ${OBJECTDIR}/src/RCServo.o ${OBJECTDIR}/src/SES.o ${OBJECTDIR}/src/Stepper.o ${OBJECTDIR}/src/pwm.o ${OBJECTDIR}/src/serial.o ${OBJECTDIR}/src/timers.o
 
 
 CFLAGS=
@@ -115,6 +115,11 @@ ${OBJECTDIR}/src/LED.o: src/LED.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/src/LED.o.d 
 	@${FIXDEPS} "${OBJECTDIR}/src/LED.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/LED.o.d" -o ${OBJECTDIR}/src/LED.o src/LED.c  
 	
+${OBJECTDIR}/src/RCServo.o: src/RCServo.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/src 
+	@${RM} ${OBJECTDIR}/src/RCServo.o.d 
+	@${FIXDEPS} "${OBJECTDIR}/src/RCServo.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/RCServo.o.d" -o ${OBJECTDIR}/src/RCServo.o src/RCServo.c  
+	
 ${OBJECTDIR}/src/serial.o: src/serial.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
 	@${RM} ${OBJECTDIR}/src/serial.o.d 
@@ -160,6 +165,11 @@ ${OBJECTDIR}/src/LED.o: src/LED.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
 	@${RM} ${OBJECTDIR}/src/LED.o.d 
 	@${FIXDEPS} "${OBJECTDIR}/src/LED.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/LED.o.d" -o ${OBJECTDIR}/src/LED.o src/LED.c  
+	
+${OBJECTDIR}/src/RCServo.o: src/RCServo.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/src 
+	@${RM} ${OBJECTDIR}/src/RCServo.o.d 
+	@${FIXDEPS} "${OBJECTDIR}/src/RCServo.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Users/hahernan/Documents/CE118/Lab3/CE118-Lab3/Lab3_Motors.X/include" -MMD -MF "${OBJECTDIR}/src/RCServo.o.d" -o ${OBJECTDIR}/src/RCServo.o src/RCServo.c  
 	
 ${OBJECTDIR}/src/serial.o: src/serial.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/src 
