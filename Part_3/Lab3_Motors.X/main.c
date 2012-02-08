@@ -21,13 +21,13 @@
 
 #define uint unsigned int
 
-#define STEPPER_MODE FULL
+#define STEPPER_MODE HALF
 #define STEPPER_SPEED 100
 #define FULL 0
 #define WAVE 1
 #define HALF 2
 
-#define STEPPER_RAMPS
+//#define STEPPER_RAMPS
 
 
 
@@ -57,8 +57,9 @@ int main(void) {
 
     printf("\nHello World!");
     Stepper_Init(STEPPER_SPEED);
+    Stepper_SetMode(STEPPER_MODE);
     printf("\nStepping forward 420 steps");
-    Stepper_SetSteps(FORWARD,10000);
+    Stepper_SetSteps(FORWARD,220);
     while(Stepper_GetRemainingCount() > 1) {
         printf("\t%u,speed=%u",Stepper_GetRemainingCount(),Stepper_GetSpeed());
         DELAY();
